@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Peta Gempa BMKG</title>
+
+    <!-- LEAFLET CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #map {
+            height: 500px;
+            width: 90%;
+            margin: auto;
+            border-radius: 20px;
+        }
+
+        .card {
+            width: 90%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>🌍 Peta Gempa BMKG</h1>
+
+    <div class="card">
+
+        <h3>
+            Total Data :
+            <span id="totalData"></span>
+        </h3>
+
+    </div>
+
+    <div id="map"></div>
+
+    <!-- LEAFLET JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+
+        // MAP
+
+        var map = L.map('map').setView([-2.5, 118], 5);
+
+        L.tileLayer(
+            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {
+                maxZoom: 19,
+                attribution: 'OpenStreetMap'
+            }
+        ).addTo(map);
+
+
+        // DATA GEMPA
+
+        const gempaData = [
+
+            {
+                Tanggal: "28 Mei 2026",
+                Jam: "08:46:21 WIB",
+                Coordinates: "-10.55,124.49",
+                Magnitude: "5.1",
+                Kedalaman: "10 km",
+                Wilayah: "86 km Tenggara TIMORTENGAHSEL-NTT",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "26 Mei 2026",
+                Jam: "15:39:10 WIB",
+                Coordinates: "-9.01,113.84",
+                Magnitude: "5.1",
+                Kedalaman: "10 km",
+                Wilayah: "93 km Tenggara JEMBER-JATIM",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "26 Mei 2026",
+                Jam: "05:03:43 WIB",
+                Coordinates: "-3.96,133.99",
+                Magnitude: "5.1",
+                Kedalaman: "10 km",
+                Wilayah: "45 km Tenggara KAIMANA-PAPUABRT",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "26 Mei 2026",
+                Jam: "03:39:21 WIB",
+                Coordinates: "1.06,126.19",
+                Magnitude: "5.7",
+                Kedalaman: "22 km",
+                Wilayah: "125 km Tenggara BITUNG-SULUT",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "25 Mei 2026",
+                Jam: "17:23:58 WIB",
+                Coordinates: "-7.55,128.64",
+                Magnitude: "5.2",
+                Kedalaman: "136 km",
+                Wilayah: "115 km TimurLaut MALUKUBRTDAYA",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "23 Mei 2026",
+                Jam: "19:40:26 WIB",
+                Coordinates: "-4.67,102.57",
+                Magnitude: "5.3",
+                Kedalaman: "17 km",
+                Wilayah: "45 km BaratDaya BENGKULUSELATAN",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "22 Mei 2026",
+                Jam: "08:05:09 WIB",
+                Coordinates: "1.07,126.18",
+                Magnitude: "5.8",
+                Kedalaman: "26 km",
+                Wilayah: "124 km Tenggara BITUNG-SULUT",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "21 Mei 2026",
+                Jam: "06:12:56 WIB",
+                Coordinates: "-6.06,130.47",
+                Magnitude: "5.0",
+                Kedalaman: "137 km",
+                Wilayah: "231 km BaratLaut TANIMBAR",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "20 Mei 2026",
+                Jam: "17:28:50 WIB",
+                Coordinates: "-8.09,119.21",
+                Magnitude: "5.2",
+                Kedalaman: "12 km",
+                Wilayah: "65 km TimurLaut KOTA-BIMA-NTB",
+                Potensi: "Tidak berpotensi tsunami"
+            },
+
+            {
+                Tanggal: "15 Mei 2026",
+                Jam: "00:53:15 WIB",
+                Coordinates: "-6.09,130.56",
+                Magnitude: "6.7",
+                Kedalaman: "163 km",
+                Wilayah: "224 km BaratLaut TANIMBAR",
+                Potensi: "Tidak berpotensi tsunami"
+            }
+
+        ];
+
+
+        // TOTAL DATA
+
+        document.getElementById("totalData").innerHTML = gempaData.length;
+
+
+        // MARKER
+
+        gempaData.forEach(function (g) {
+
+            var koordinat = g.Coordinates.split(",");
+
+            var lat = parseFloat(koordinat[0]);
+
+            var lng = parseFloat(koordinat[1]);
+
+            var marker = L.marker([lat, lng]).addTo(map);
+
+            marker.bindPopup(
+
+                `
+                <b>${g.Wilayah}</b><br><br>
+
+                Magnitude : ${g.Magnitude}<br>
+                Kedalaman : ${g.Kedalaman}<br>
+                Tanggal : ${g.Tanggal}<br>
+                Jam : ${g.Jam}<br>
+                Potensi : ${g.Potensi}
+                `
+            );
+
+        });
+
+    </script>
+
+</body>
+
+</html>
